@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  # https://github.com/terminusdb/terminusdb-bootstrap/blob/main/terminusdb-container
+  # https://github.com/terminusdb/terminusdb/blob/main/docker-compose.yml
+  # open http://localhost:6363 and use admin:root
+  # http://localhost:6363/graphiql/companyteam/comanydbproduct
+
+  # http://localhost:6363/graphiql/admin/blog
+  # {"Authorization": "Basic YWRtaW46cm9vdA=="} is made from echo -n 'admin:root' | base64 -w0
+  terminus:
+    image: terminusdb.docker.scarf.sh/terminusdb/terminusdb-server:v10.1.11
+    restart: unless-stopped
+    ports:
+      - 6363:6363
+    volumes:
+      - terminus_data:/app/terminusdb/storage:z
+    environment:
+#      - TERMINUSDB_INSECURE_USER_HEADER=X-Forwarded-User
+#      - TERMINUSDB_INSECURE_USER_HEADER_ENABLED=true
+      - TERMINUSDB_ADMIN_PASS=root
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "1"
+
+volumes:
+  terminus_data:

@@ -248,40 +248,38 @@ function PostRiver() {
   if (loading) return <Loading />;
   if (error) return `Error! ${error.message}`;
   return (
-    <div>
-      <div name='post_river'>
-      {data.Post.map((post) => {
-          const date_time_obj = new Date(post.date);
-          var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-          var date_time = date_time_obj.toLocaleDateString("en-US", options)
-          var id = post._id.replace(/^iri:\/\/data/, '')
-          var path = `${id}`
-          var content = snippit(post.content) + `... **[see more](${path})**`
-          var image = post.feature ? Image(post.feature) : ''
-          return (
-           <div key={id} id={id} name='BlogCard'>
-             <table className='blogTable'>
-              <tbody>
-              <tr>
-                <td className='blogData'>
-                  <span><h2><a href={path}>{post.title}</a></h2></span><em>{date_time}</em>
-                  <ReactMarkdown components={MarkdownComponents}>
-                  {content}
-                  </ReactMarkdown>
-                </td>
-                {image}
-              </tr>
-              </tbody>
-             </table>
-             <hr />
-          </div>
-          )})}
+      <div>
+        <div name='post_river'>
+          {data.Post.map((post) => {
+            console.log(post)
+            const date_time_obj = new Date(post.date);
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+            var date_time = date_time_obj.toLocaleDateString("en-US", options)
+            var id = post.id.replace(/^iri:\/\/data/, '')
+            var path = `${id}`
+            var content = snippit(post.content) + `... **[see more](${path})**`
+            var image = post.feature ? Image(post.feature) : ''
+            return (
+                <div key={id} id={id} name='BlogCard'>
+                  <table className='blogTable'>
+                    <tr>
+                      <td className='blogData'>
+                        <span><h2><a href={path}>{post.title}</a></h2></span><em>{date_time}</em>
+                        <ReactMarkdown components={MarkdownComponents}>
+                          {content}
+                        </ReactMarkdown>
+                      </td>
+                      {image}
+                    </tr>
+                  </table>
+                  <hr />
+                </div>
+            )})}
+        </div>
+        <More />
       </div>
-      <More />
-    </div>
   );
 }
-
 function Post() {
   var path = window.location.pathname
   var id = path.substring(1,path.length)
@@ -372,16 +370,16 @@ function SinglePage() {
 }
 
 function App() {
-  let routes = useRoutes([
-    { path: "/", element: <Posts /> },
-    { path: "p", children : [
-       { path: ":page", element: <Posts /> }]},
-    { path: "Post", children : [
-       { path: ":id", element: <SinglePost /> }]},
-    { path: "Page", children : [
-       { path: ":id", element: <SinglePage /> }]}
-  ]);
-  return routes;
+    let routes = useRoutes([
+        { path: "/", element: <Posts /> },
+        { path: "p", children : [
+                { path: ":page", element: <Posts /> }]},
+        { path: "Post", children : [
+                { path: ":id", element: <SinglePost /> }]},
+        { path: "Page", children : [
+                { path: ":id", element: <SinglePage /> }]}
+    ]);
+    return routes;
 }
 
 export default App;

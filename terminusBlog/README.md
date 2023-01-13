@@ -253,3 +253,22 @@ something like [Heroku](https://www.heroku.com/).
 The whole thing demonstrates that TerminusDB makes a flexible GraphQL
 backend for a content management system, with very little effort from
 the developer.
+
+---
+
+```
+docker cp schema.json terminusblog_terminus_1:/tmp
+docker cp blogs.json terminusblog_terminus_1:/tmp
+
+docker exec -it terminusblog_terminus_1 bash
+cd /app/terminusdb/
+
+./terminusdb db create admin/blog
+./terminusdb doc insert admin/blog -g schema -f < /tmp/schema.json
+./terminusdb doc insert admin/blog -g instance -f < /tmp/blogs.json
+```
+
+In browser
+```
+http://localhost:6363/graphiql/admin/blog
+```
