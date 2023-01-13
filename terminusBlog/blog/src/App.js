@@ -186,7 +186,7 @@ function SiteMap() {
   const { loading, error, data } = useQuery(SITEMAP_QUERY);
   if (loading) return <div className='topnav'><Loading /></div>;
   if (error) return `Error! ${error.message}`;
-  const SiteItems = data.SiteMap[0].items
+  const SiteItems = data.SiteMap.length ? data.SiteMap[0].items : []
   return (
       <div className='topnav'>
       {SiteItems.map((item) =>
@@ -251,17 +251,17 @@ function PostRiver() {
       <div>
         <div name='post_river'>
           {data.Post.map((post) => {
-            console.log(post)
             const date_time_obj = new Date(post.date);
             var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
             var date_time = date_time_obj.toLocaleDateString("en-US", options)
-            var id = post.id.replace(/^iri:\/\/data/, '')
+            var id = post._id.replace(/^iri:\/\/data/, '')
             var path = `${id}`
             var content = snippit(post.content) + `... **[see more](${path})**`
             var image = post.feature ? Image(post.feature) : ''
             return (
                 <div key={id} id={id} name='BlogCard'>
                   <table className='blogTable'>
+                  <tbody>
                     <tr>
                       <td className='blogData'>
                         <span><h2><a href={path}>{post.title}</a></h2></span><em>{date_time}</em>
@@ -271,6 +271,7 @@ function PostRiver() {
                       </td>
                       {image}
                     </tr>
+                  </tbody>
                   </table>
                   <hr />
                 </div>
