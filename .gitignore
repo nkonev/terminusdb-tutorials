@@ -38,3 +38,6 @@ venv/
 .DS_Store
 
 Pipfile.lock
+
+node_modules
+.idea
