@@ -170,7 +170,7 @@ the post to get a snippit, and then the actual blog synopsis card.
 We do a GraphQL query to get the posts we are interested in, namely:
 
 ```graphql
- query PostsQuery($offset: Int, $limit: Int) {
+query PostsQuery($offset: Int, $limit: Int) {
     Post(offset: $offset, limit: $limit, orderBy: { date : DESC }) {
         _id
         date
